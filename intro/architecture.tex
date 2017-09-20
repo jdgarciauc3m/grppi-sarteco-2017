@@ -1,0 +1,51 @@
+\subsection{Arquitectura de GrPPI}
+
+\begin{frame}[t]{Ideales}
+\begin{itemize}[<+->]
+  \item Las aplicaciones deberían poder expresarse independientemente
+        de su modelo de ejecución.
+  \item Se debería poder usar múltiples \emph{back-ends} con mecanismos
+        sencillos para cambiar de uno a otro.
+  \item La interfaz de programación debería poderse integrar \emph{suavemente}
+        con C++ moderno y su biblioteca estándar.
+  \item Se debería poder aprovechar las ventajas de C++ moderno (C++14 y más allá).
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t]{GrPPI}
+\begin{Large}
+\textgood{\url{https://github.com/arcosuc3m/grppi}}
+\end{Large}
+\vfill\pause
+\begin{itemize}
+  \item Una biblioteca \textmark{header only}.
+  \item Un conjunto de políticas de ejecución intercambiables.
+  \item Un conjunto de algoritmos genéricos con seguridad de tipos.
+  \item Se base en técnicas de metaprogramación sin exponerlas a los usuarios.
+  \item Requiere \textgood{C++14}.
+  \item GNU GPL v3.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Políticas de ejecución}
+\begin{itemize}
+  \item Encapsulan el modelo de ejecución.
+  \vfill
+  \item Políticas de ejecución disponibles:
+    \begin{itemize}
+      \item \cppid{sequential\_execution}.
+      \item \cppid{parallel\_execution\_native}.
+      \item \cppid{parallel\_execution\_omp}.
+      \item \cppid{parallel\_execution\_tbb}.
+      \item \cppid{parallel\_execution\_thrust} (pendiente de liberar).
+      \item \cppid{dynamic\_execution}.
+    \end{itemize}
+  \vfill
+  \item Todos los patrones toman un objecto \emph{ejecución}
+  \vfill
+  \item Una política de ejecución tiene propiedades asociadas.
+    \begin{itemize}
+      \item Ejemplo: \cppid{concurrency\_degree}.
+    \end{itemize}
+\end{itemize}
+\end{frame}

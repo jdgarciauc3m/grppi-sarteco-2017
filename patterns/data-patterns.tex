@@ -1,0 +1,23 @@
+\subsection{Patrones de datos}
+
+\begin{frame}[t]{Patrones de datos}
+\begin{itemize}
+  \item Patrones orientados al procesamiento de datos en memoria.
+    \begin{itemize}
+      \item \textmark{Entrada}: Uno o varios conjuntos de datos.
+      \item \textmark{Salida}: Un conjunto de datos (\textgood{map}, \textgood{stencil}) o un valor
+            (\textgood{reduce}, \textgood{map/reduce}).
+    \end{itemize}
+  \vfill\pause
+  \item Interfaz:
+    \begin{itemize}
+      \item Conjuntos de datos expresados mediante iteradores a un rango.
+      \item Transformaciones expresadas mediante expresiones lambda (u otra entidad llamable).
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\input{patterns/map}
+\input{patterns/reduce}
+\input{patterns/map-reduce}
+\input{patterns/stencil}

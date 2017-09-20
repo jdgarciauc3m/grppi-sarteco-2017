@@ -1,0 +1,71 @@
+\begin{frame}[t]{Pipeline}
+\begin{itemize}
+  \item Un \textgood{pipeline} 
+        permite procesar flujos de información cuando el cómputo se puede dividir en etapas.
+    \begin{itemize}
+      \item Cada etapa proces los datos generados por la etapa previa y pasa el resultado
+            a la siguiente.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Pipeline simple}
+\begin{block}{x -> x*x -> 1/x -> print}
+\begin{lstlisting}
+template <typename Execution>
+void run_pipe(const Execution & ex, int n)
+{
+  grppi::pipeline(ex,
+    [i=0,max=n] () mutable -> optional<int> {
+      if (i<max) return i;
+      else return {};
+    },
+    [](int x) -> double { return x*x; },
+    [](double x) { return 1/x; },
+    [](double x) { cout << x << "\n"; }
+  );
+}
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[t,fragile]{Pipelines anidados}
+\begin{block}{x -> x*x -> 1/x -> print}
+\begin{lstlisting}
+template <typename Execution>
+void run_pipe(const Execution & ex, int n)
+{
+  grppi::pipeline(ex,
+    [i=0,max=n] () mutable -> optional<int> {
+      if (i<max) return i;
+      else return {};
+    },
+    grppi::pipeline(
+      [](int x) -> double { return x*x; },
+      [](double x) { return 1/x; }),
+    [](double x) { cout << x << "\n"; }
+  );
+}
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[t,fragile]{Pipelines por partes}
+\begin{block}{x -> x*x -> 1/x -> print}
+\begin{lstlisting}
+template <typename Execution>
+void run_pipe(const Execution & ex, int n)
+{
+  auto generator = [i=0,max=n] () mutable -> optional<int> {
+    if (i<max) return i; else return {};
+  };
+  auto inner = grppi::pipeline(
+      [](int x) -> double { return x*x; },
+      [](double x) { return 1/x; });
+  auto printer = [](double x) { cout << x << "\n"; };
+
+  grppi::pipeline(ex, generator, inner, printer);
+}
+\end{lstlisting}
+\end{block}
+\end{frame}

@@ -1,0 +1,19 @@
+\begin{frame}[t,fragile]{Farms en pipelines}
+\begin{block}{Cuadrado de valores}
+\begin{lstlisting}
+template <typename Execution>
+void run_pipe(const Execution & ex, int n)
+{
+  grppi::pipeline(ex,
+    [i=0,max=n] () mutable -> optional<int> {
+      if (i<max) return i;
+      else return {};
+    },
+    grppi::farm(4
+      [](int x) -> double { return x*x; }),
+    [](double x) { cout << x << "\n"; }
+  );
+}
+\end{lstlisting}
+\end{block}
+\end{frame}

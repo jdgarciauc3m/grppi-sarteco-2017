@@ -1,0 +1,23 @@
+\begin{frame}[t,fragile]{Iterando en un flujo}
+\begin{block}{Imprime valores $2^n*x$}
+\begin{lstlisting}
+template <typename Execution>
+void print_values(const Execution & ex, int n)
+{
+  auto generator = [i=1,max=n+1]() mutable -> optional<int> {
+    if (i<max) return i++;
+    else return {};
+  };
+
+  grppi::pipeline(ex,
+    generator,
+    grppi::repeat_until(
+      [](int x) { return 2*x; },
+      [](int x) { return x>1024; }
+    ),
+    [](int x) { cout << x << endl; }
+  );
+}
+\end{lstlisting}
+\end{block}
+\end{frame}

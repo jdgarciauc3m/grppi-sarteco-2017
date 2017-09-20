@@ -1,0 +1,12 @@
+\begin{frame}[t,fragile]{Reducción}
+\begin{block}{Suma de longitudes de palabras}
+\begin{lstlisting}
+template <typename Execution>
+int add_lengths(const Execution & ex, const std::vector<std::string> & words)
+{
+  return grppi::reduce(words.begin(), words.end(), 0,
+    [](int n, std::string w) { return n + w.length(); });
+}
+\end{lstlisting}
+\end{block}
+\end{frame}

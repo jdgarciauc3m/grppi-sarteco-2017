@@ -1,0 +1,23 @@
+\begin{frame}[t,fragile]{Stencil unidimensional}
+\begin{block}{Promedio de vecinos}
+\begin{lstlisting}
+template <typename Execution>
+std::vector<double> neib_avg(const Execution & ex, const std::vector<double> & v)
+{
+  std::vector<double> res(v.size());
+  grppi::stencil(ex, v.begin(), v.end(), 
+    [](auto it, auto n) {
+      return *it + accumulate(begin(n), end(n)); 
+    },
+    [&](auto it) {
+      vector<double> r;
+      if (it!=begin(v)) r.push_back(*prev(it));
+      if (distance(it,end(end))>1) r.push_back(*next(it));
+      return r;
+    });
+  return res;
+}
+\end{lstlisting}
+\end{block}
+\end{frame}
+

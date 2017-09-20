@@ -1,0 +1,35 @@
+\begin{frame}[t,fragile]{Map/reduce multidimensional}
+\begin{block}{Producto escalar}
+\begin{lstlisting}
+template <typename Execution>
+double scalar_product(const Execution & ex,
+                      const std::vector<double> & v1,
+                      const std::vector<double> & v2)
+{
+  return grppi::map_reduce(ex, begin(v1), end(v1), 0.0,
+    [](double x, double y) { return x*y; },
+    [](double x, double y) { return x+y; },
+    v2.begin());
+}
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[t,fragile]{Ejemplo canónico de map/reduce}
+\begin{block}{Tabla de frecuencias de palabras}
+\begin{lstlisting}
+template <typename Execution>
+auto word_freq(const Execution & ex, const std::vector<std::string> & words)
+{
+  using namespace std;
+  using dictionary = std::map<string,int>;
+  return grppi::map_reduce(ex, words.begin(), words.end(), dictionary{},
+    [](string w) -> dictionary { return {w,1}; }
+    [](dictionary & lhs, const dictionary & rhs) -> dictionary {
+      for (auto & entry : rhs) { lhs[entry.first] += entry.second; }
+      return lhs;
+    });
+}
+\end{lstlisting}
+\end{block}
+\end{frame}
